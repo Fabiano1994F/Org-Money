@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Transação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container" style="max-width: 500px; margin-top: 50px;">
+        <div class="form-container">
+            <h2>Editar Transação</h2>
+            <form action="/editar/{{ transacao.id }}" method="POST" style="flex-direction: column;">
+                <label>Descrição:</label>
+                <input type="text" name="descricao" value="{{ transacao.descricao }}" required>
+
+                <label>Valor:</label>
+                <input type="number" step="0.01" name="valor" value="{{ transacao.valor }}" required>
+
+                <label>Tipo:</label>
+                <select name="tipo" required>
+                    <option value="despesa" {% if transacao.tipo=='despesa' %}selected{% endif %}>Despesa</option>
+                    <option value="receita" {% if transacao.tipo=='receita' %}selected{% endif %}>Receita</option>
+                </select>
+
+                <label>Categoria:</label>
+                <input type="text" name="categoria" value="{{ transacao.categoria }}" required>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="submit" style="background: #2ea44f;">Salvar</button>
+                    <a href="/"
+                        style="text-align: center; padding: 10px; background: #6e7681; color: white; text-decoration: none; border-radius: 4px; flex: 1;">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

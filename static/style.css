@@ -1,0 +1,797 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f4f6f9;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.filter-container {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+}
+
+.cards {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    flex: 1;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.card.receita p {
+    color: #2ea44f;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.card.despesa p {
+    color: #cb2431;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.card.saldo p {
+    color: #0366d6;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.form-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+form input,
+form select,
+form button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+    min-width: 120px;
+}
+
+form button {
+    background: #0366d6;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form button:hover {
+    background: #0256b4;
+}
+
+.content-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-box,
+.table-box {
+    flex: 1;
+    min-width: 300px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+td.receita {
+    color: #2ea44f;
+    font-weight: bold;
+}
+
+td.despesa {
+    color: #cb2431;
+    font-weight: bold;
+}
+
+.btn-edit, .btn-delete {
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.btn-edit {
+    background-color: #0366d6;
+}
+
+.btn-edit:hover {
+    background-color: #0256b4;
+}
+
+.btn-delete {
+    background-color: #cb2431;
+}
+
+.btn-delete:hover {
+    background-color: #b31d28;
+}
+
+/* Botão de CSV */
+.btn-csv {
+    background-color: #2ea44f;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-csv:hover {
+    background-color: #2c974b;
+}
+
+/* --- ESTILOS DO MODO ESCURO --- */
+
+/* Alinhamento do Título e Botão de Tema */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-top h1 {
+    margin-bottom: 0;
+}
+
+/* --- BOTÃO DE TEMA FLUTUANTE (FIXO NO CANTO SUPERIOR DIREITO) --- */
+.btn-theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.btn-theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo do botão no Modo Escuro */
+body.dark-mode .btn-theme-toggle {
+    background: rgba(45, 45, 45, 0.8);
+    border-color: #444;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Cores do Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode label {
+    color: #ffffff;
+}
+
+body.dark-mode .filter-container,
+body.dark-mode .form-container,
+body.dark-mode .card,
+body.dark-mode .chart-box,
+body.dark-mode .table-box {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode form input,
+body.dark-mode form select {
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border-color: #444;
+}
+
+body.dark-mode th {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-bottom: 1px solid #444;
+}
+
+body.dark-mode td {
+    border-bottom: 1px solid #333;
+    color: #e0e0e0;
+}
+
+/* Estilos para Telas de Autenticação */
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--bg-color, #f4f6f9);
+}
+
+/* --- ALINHAMENTO E CENTRALIZAÇÃO DAS TELAS DE AUTH --- */
+.auth-container {
+    background: var(--card-bg, #ffffff);
+    padding: 35px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center; /* Centraliza títulos e textos */
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento uniforme entre os campos */
+    margin-top: 20px;
+}
+
+.auth-form .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha as labels à esquerda */
+    width: 100%;
+}
+
+.auth-form label {
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.auth-form input {
+    width: 100%; /* Faz o input ocupar 100% da largura do container */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box; /* Impede que o padding quebre a largura */
+}
+
+.auth-form .btn-primary {
+    width: 100%; /* Botão ocupando a largura total centralizado */
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.auth-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* --- ESTILOS DO MENU DE USUÁRIO E LOGOUT --- */
+.user-greeting {
+    margin-top: 4px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+body.dark-mode .user-greeting {
+    color: #bbb;
+}
+
+.btn-logout {
+    color: #e53e3e;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
+    transition: color 0.2s;
+}
+
+.btn-logout:hover {
+    color: #c53030;
+    text-decoration: underline;
+}
+
+/* --- ESTILOS DO MODO ESCURO PARA LOGIN E CADASTRO --- */
+body.dark-mode {
+    background-color: #121212 !important;
+    color: #f1f1f1;
+}
+
+body.dark-mode .auth-container {
+    background-color: #1e1e1e !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+body.dark-mode .auth-form label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .auth-form input {
+    background-color: #2d2d2d;
+    border: 1px solid #444;
+    color: #ffffff;
+}
+
+body.dark-mode .auth-form input::placeholder {
+    color: #aaa;
+}
+
+body.dark-mode .auth-footer {
+    color: #ccc;
+}
+
+body.dark-mode .auth-footer a {
+    color: #4da6ff;
+}
+
+/* Ajustes dos alertas no modo escuro */
+body.dark-mode .alert-danger {
+    background-color: #441c1d;
+    color: #f8d7da;
+    border: 1px solid #842029;
+}
+
+body.dark-mode .alert-success {
+    background-color: #0f3d23;
+    color: #d4edda;
+    border: 1px solid #0f5132;
+}
+
+/* --- TELA DE CARREGAMENTO (LOADING) --- */
+#loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color, #f4f6f9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+body.dark-mode #loader-overlay {
+    background-color: #121212;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+body.dark-mode .loader-content h1 {
+    color: #ffffff;
+}
+
+/* Animação do Spinner Ring */
+.spinner {
+    width: 45px;
+    height: 45px;
+    margin: 0 auto;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #0366d6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+body.dark-mode .spinner {
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: #4da6ff;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- MODAL DA CALCULADORA --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-calc-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .modal-calc-container {
+    background: #1e1e1e;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.modal-calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888;
+}
+
+body.dark-mode .close-btn {
+    color: #fff;
+}
+
+.calc-display input {
+    width: 100%;
+    height: 45px;
+    font-size: 1.4rem;
+    text-align: right;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+    box-sizing: border-box;
+}
+
+body.dark-mode .calc-display input {
+    background: #2d2d2d;
+    color: #fff;
+    border-color: #444;
+}
+
+.calc-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.calc-btn {
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #e9ecef;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.calc-btn:hover {
+    background: #dee2e6;
+}
+
+body.dark-mode .calc-btn {
+    background: #333;
+    border-color: #444;
+    color: #fff;
+}
+
+body.dark-mode .calc-btn:hover {
+    background: #444;
+}
+
+.calc-btn.operator { background: #d0e1fd; color: #0366d6; }
+.calc-btn.danger { background: #f8d7da; color: #721c24; }
+.calc-btn.success { background: #2ea44f; color: #fff; }
+
+body.dark-mode .calc-btn.operator { background: #1a365d; color: #4da6ff; }
+body.dark-mode .calc-btn.danger { background: #441c1d; color: #f8d7da; }
+
+/* Classe para esconder a tela de loading */
+#loader-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Container dos Botões Fixos no Topo */
+.top-actions {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+/* Garante que o link se comporte exatamente como os botões */
+.top-actions .btn-theme-toggle {
+    position: static; /* Remove o posicionamento fixo individual */
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background-color: #00f7ff;
+    color: #0d1117;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-share:hover {
+    background-color: #00c4cc;
+    transform: translateY(-1px);
+}
+
+.btn-share svg {
+    stroke: #0d1117;
+}
+
+.btn-share,
+#btn-share-report {
+    margin-left: 10px; /* Altere para o valor desejado, ex: 12px ou 15px */
+}
+
+/* --- REGRAS DE RESPONSIVIDADE --- */
+
+/* ==========================================================================
+   RESPONSIVIDADE (Tablets e Celulares - Telas até 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    body {
+        padding: 10px 8px !important;
+        overflow-x: hidden; /* Evita rolagem lateral na tela inteira */
+    }
+
+    /* Container do Cabeçalho Topo */
+    .header-top {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+
+    .header-top h1, 
+    .header-top h2 {
+        font-size: 1.4rem !important;
+        margin: 0 !important;
+        word-break: break-word;
+    }
+
+    /* Container das Ações do Topo (Dicas, Calculadora, Modo Escuro) */
+    .top-actions {
+        display: flex !important;
+        flex-direction: column !important; /* Empilha os botões no mobile para não encavalar */
+        width: 100% !important;
+        gap: 8px !important;
+        align-items: stretch !important;
+    }
+
+    .top-actions a,
+    .top-actions button,
+    .btn-theme-toggle {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        padding: 10px !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Área de Filtros */
+    .filter-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 15px !important;
+    }
+
+    .filter-container form {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    /* Inputs, Selects e Botões ocupando 100% */
+    form input,
+    form select,
+    form button,
+    .btn-csv,
+    .btn-share,
+    .filter-container button,
+    .filter-container select {
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Grid do Conteúdo e Cards */
+    .cards,
+    .content-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 15px !important;
+    }
+
+    .chart-box, 
+    .table-box {
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Tabela Responsiva com Rolagem Interna Limpa */
+    .table-box {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE (Celulares Pequenos - Telas até 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    th, td {
+        padding: 8px 5px;
+        font-size: 0.85rem;
+    }
+
+    .btn-edit, 
+    .btn-delete {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+}
+
+/* Estilização da Logo da Org Money na Splash */
+.splash-logo-img {
+    max-width: 220px; /* Ajuste o tamanho da logo conforme preferir */
+    height: auto;
+    border-radius: 16px; /* Arredonda suavemente as bordas caso a imagem seja quadrada */
+    filter: drop-shadow(0px 0px 20px rgba(0, 247, 255, 0.4)); /* Glow neon combinando com o tema */
+    animation: pulseLogo 1.5s infinite alternate ease-in-out;
+}
+
+/* Animação suave de pulso */
+@keyframes pulseLogo {
+    from {
+        transform: scale(0.98);
+        filter: drop-shadow(0px 0px 15px rgba(0, 247, 255, 0.3));
+    }
+    to {
+        transform: scale(1.03);
+        filter: drop-shadow(0px 0px 25px rgba(0, 247, 255, 0.6));
+    }
+}

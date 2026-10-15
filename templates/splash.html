@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Org Money | Carregando...</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilos específicos da Splash Screen */
+        .splash-body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0d1117;
+            overflow: hidden;
+        }
+
+        .splash-container {
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* Estilização da Logo da Org Money */
+        .splash-logo-img {
+            max-width: 220px;
+            height: auto;
+            border-radius: 20px;
+            filter: drop-shadow(0px 0px 20px rgba(0, 247, 255, 0.4));
+            animation: pulse 1.5s infinite alternate ease-in-out;
+        }
+
+        /* Spinner suave abaixo da logo */
+        .splash-loader {
+            width: 40px;
+            height: 40px;
+            margin: 25px auto 0;
+            border: 3px solid rgba(0, 247, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #00f7ff;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(0.98);
+                filter: drop-shadow(0px 0px 15px rgba(0, 247, 255, 0.3));
+            }
+            to {
+                transform: scale(1.03);
+                filter: drop-shadow(0px 0px 25px rgba(0, 247, 255, 0.6));
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="splash-body">
+
+    <div class="splash-container">
+        <!-- Logo Org Money -->
+        <div class="splash-logo">
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Org Money Logo" class="splash-logo-img">
+        </div>
+        <!-- Indicador de carregamento -->
+        <div class="splash-loader"></div>
+    </div>
+
+    <script>
+        // Redireciona para o login após 2000ms (2 segundos)
+        setTimeout(() => {
+            window.location.href = "{{ url_for('login') }}";
+        }, 2000);
+    </script>
+</body>
+
+</html>

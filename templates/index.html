@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Financeiro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<style>
+    /* Container de Fundo (Cobre toda a tela) */
+    #loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #0d1117;
+        /* Fundo escuro */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        /* Garante que fique acima de todos os elementos */
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    /* Classe utilizada via JS para ocultar suavemente */
+    #loader-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    /* Alinhamento Central do Conteúdo */
+    .loader-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Estilização da Logo com Animação de Pulso */
+    .loader-logo {
+        max-width: 180px;
+        height: auto;
+        border-radius: 16px;
+        filter: drop-shadow(0px 0px 20px rgba(0, 247, 255, 0.4));
+        animation: pulseLogo 1.5s infinite alternate ease-in-out;
+    }
+
+    /* Spinner Giratório (Indicador de Carregamento) */
+    .spinner {
+        width: 40px;
+        height: 40px;
+        margin-top: 25px;
+        border: 3px solid rgba(0, 247, 255, 0.15);
+        border-radius: 50%;
+        border-top-color: #00f7ff;
+        /* Cor da borda ativa */
+        animation: spinLoader 0.8s linear infinite;
+    }
+
+    /* Keyframes das Animações */
+    @keyframes spinLoader {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes pulseLogo {
+        from {
+            transform: scale(0.98);
+            filter: drop-shadow(0px 0px 15px rgba(0, 247, 255, 0.3));
+        }
+
+        to {
+            transform: scale(1.03);
+            filter: drop-shadow(0px 0px 25px rgba(0, 247, 255, 0.6));
+        }
+    }
+</style>
+
+<body>
+
+    <!-- Splash Screen / Loader -->
+    <div id="loader-overlay">
+        <div class="loader-content">
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo" class="loader-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="header-top">
+            <div>
+                <p class="user-greeting">
+                    👤 Olá, <strong>{{ usuario_nome }}</strong> |
+                    <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+                </p>
+            </div>
+            <div class="top-actions">
+                <a href="{{ url_for('dicas') }}" class="btn-theme-toggle">💡 Dicas</a>
+                <button id="open-calc" class="btn-theme-toggle" type="button">🧮 Calculadora</button>
+                <button id="toggle-theme" class="btn-theme-toggle" type="button">🌙 Modo Escuro</button>
+            </div>
+        </div>
+
+        <!-- Seletor de Mês e Ano -->
+        <div class="filter-container">
+            <form action="/" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <label for="mes"><strong>Filtrar por:</strong></label>
+                <select name="mes" id="mes">
+                    <option value="1" {% if mes_atual==1 %}selected{% endif %}>Janeiro</option>
+                    <option value="2" {% if mes_atual==2 %}selected{% endif %}>Fevereiro</option>
+                    <option value="3" {% if mes_atual==3 %}selected{% endif %}>Março</option>
+                    <option value="4" {% if mes_atual==4 %}selected{% endif %}>Abril</option>
+                    <option value="5" {% if mes_atual==5 %}selected{% endif %}>Maio</option>
+                    <option value="6" {% if mes_atual==6 %}selected{% endif %}>Junho</option>
+                    <option value="7" {% if mes_atual==7 %}selected{% endif %}>Julho</option>
+                    <option value="8" {% if mes_atual==8 %}selected{% endif %}>Agosto</option>
+                    <option value="9" {% if mes_atual==9 %}selected{% endif %}>Setembro</option>
+                    <option value="10" {% if mes_atual==10 %}selected{% endif %}>Outubro</option>
+                    <option value="11" {% if mes_atual==11 %}selected{% endif %}>Novembro</option>
+                    <option value="12" {% if mes_atual==12 %}selected{% endif %}>Dezembro</option>
+                </select>
+
+                <select name="ano" id="ano">
+                    {% for a in range(2024, 2030) %}
+                    <option value="{{ a }}" {% if ano_atual==a %}selected{% endif %}>{{ a }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Filtrar</button>
+
+                <a href="/exportar_csv?mes={{ mes_atual }}&ano={{ ano_atual }}" class="btn-csv">
+                    Baixar PDF
+                </a>
+            </form>
+
+            <!-- Botão de Compartilhar Relatório -->
+            <button id="btn-share-report" class="btn-share">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                Compartilhar Relatório
+            </button>
+        </div>
+
+        <!-- Formulário de Definição de Receita Mensal -->
+        <div class="form-container" style="margin-bottom: 15px;">
+            <h2>Definir Receita Mensal / Salário</h2>
+            <form action="/definir_receita" method="POST" style="display: flex; gap: 10px;">
+                <input type="text" name="receita_fixa" value="{{ receita_fixa }}" placeholder="Sua Renda Fixa (R$)"
+                    inputmode="numeric" oninput="mascaraMoeda(this)" required>
+                <button type="submit" style="background: #2ea44f;">Salvar Receita</button>
+            </form>
+        </div>
+
+        <!-- Cards de Resumo -->
+        <div class="cards">
+            <div class="card receita">
+                <h3>Receitas</h3>
+                <p>R$ {{ receitas | formato_brl }}</p>
+            </div>
+            <div class="card despesa">
+                <h3>Despesas</h3>
+                <p>R$ {{ despesas | formato_brl }}</p>
+            </div>
+            <div class="card saldo">
+                <h3>Saldo Total</h3>
+                <p>R$ {{ saldo | formato_brl }}</p>
+            </div>
+        </div>
+
+        <!-- Formulário para Nova Transação -->
+        <div class="form-container">
+            <h2>Nova Transação</h2>
+            <form action="/adicionar" method="POST">
+                <input type="text" name="descricao" placeholder="Descrição (ex: Mercado)" required>
+                <input type="text" name="valor" placeholder="Valor (ex: 150,00)" inputmode="numeric"
+                    oninput="mascaraMoeda(this)" required>
+                <select name="tipo" required>
+                    <option value="despesa">Despesa</option>
+                    <option value="receita">Receita</option>
+                </select>
+                <input type="text" name="categoria" placeholder="Categoria (ex: Alimentação)" required>
+                <button type="submit">Adicionar</button>
+            </form>
+        </div>
+
+        <!-- Gráfico e Tabela -->
+        <div class="content-grid">
+            <div class="chart-box">
+                <h2>Despesas por Categoria</h2>
+                <canvas id="graficoDespesas"></canvas>
+            </div>
+
+            <div class="table-box">
+                <h2>Histórico</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in transacoes %}
+                        <tr>
+                            <td>{{ t.descricao }}</td>
+                            <td>{{ t.categoria }}</td>
+                            <td class="{{ t.tipo }}">
+                                {% if t.tipo == 'despesa' %}-{% else %}+{% endif %} R$ {{ t.valor | formato_brl }}
+                            </td>
+                            <td>
+                                <a href="/editar/{{ t.id }}" class="btn-edit">Editar</a>
+                                <a href="/deletar/{{ t.id }}" class="btn-delete"
+                                    onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4">Nenhuma transação cadastrada.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="calc-modal" class="modal-overlay">
+        <div class="modal-calc-container">
+            <div class="modal-calc-header">
+                <h3>Calculadora</h3>
+                <button id="close-calc" class="close-btn">&times;</button>
+            </div>
+            <div class="calc-display">
+                <input type="text" id="calc-screen" readonly value="0">
+            </div>
+            <div class="calc-buttons">
+                <button class="calc-btn danger" onclick="clearCalc()">C</button>
+                <button class="calc-btn" onclick="appendCalc('(')">(</button>
+                <button class="calc-btn" onclick="appendCalc(')')">)</button>
+                <button class="calc-btn operator" onclick="appendCalc('/')">÷</button>
+
+                <button class="calc-btn" onclick="appendCalc('7')">7</button>
+                <button class="calc-btn" onclick="appendCalc('8')">8</button>
+                <button class="calc-btn" onclick="appendCalc('9')">9</button>
+                <button class="calc-btn operator" onclick="appendCalc('*')">×</button>
+
+                <button class="calc-btn" onclick="appendCalc('4')">4</button>
+                <button class="calc-btn" onclick="appendCalc('5')">5</button>
+                <button class="calc-btn" onclick="appendCalc('6')">6</button>
+                <button class="calc-btn operator" onclick="appendCalc('-')">-</button>
+
+                <button class="calc-btn" onclick="appendCalc('1')">1</button>
+                <button class="calc-btn" onclick="appendCalc('2')">2</button>
+                <button class="calc-btn" onclick="appendCalc('3')">3</button>
+                <button class="calc-btn operator" onclick="appendCalc('+')">+</button>
+
+                <button class="calc-btn" onclick="appendCalc('0')">0</button>
+                <button class="calc-btn" onclick="appendCalc('.')">,</button>
+                <button class="calc-btn danger" onclick="backspaceCalc()">⌫</button>
+                <button class="calc-btn success" onclick="calculateResult()">=</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Lógica do Modo Escuro ---
+        const themeBtn = document.getElementById('toggle-theme');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeBtn.textContent = '☀️ Modo Claro';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                themeBtn.textContent = '☀️ Modo Claro';
+            } else {
+                themeBtn.textContent = '🌙 Modo Escuro';
+            }
+            localStorage.setItem('theme', theme);
+        });
+
+        // --- 2. Função de Mapeamento de Ícones por Categoria ---
+        function getCategoriaIcon(categoria) {
+            const cat = categoria.toLowerCase().trim();
+
+            if (cat.includes('alimenta') || cat.includes('mercado') || cat.includes('comida') || cat.includes('restaurante')) return '🍔 ' + categoria;
+            if (cat.includes('transporte') || cat.includes('combustivel') || cat.includes('uber') || cat.includes('gasolina')) return '🚗 ' + categoria;
+            if (cat.includes('saude') || cat.includes('farmacia') || cat.includes('medico')) return '💊 ' + categoria;
+            if (cat.includes('moradia') || cat.includes('aluguel') || cat.includes('luz') || cat.includes('agua') || cat.includes('internet')) return '🏠 ' + categoria;
+            if (cat.includes('lazer') || cat.includes('viagem') || cat.includes('cinema') || cat.includes('jogos')) return '🎮 ' + categoria;
+            if (cat.includes('educa') || cat.includes('curso') || cat.includes('escola') || cat.includes('faculdade')) return '📚 ' + categoria;
+            if (cat.includes('salario') || cat.includes('renda') || cat.includes('investimento') || cat.includes('trabalho')) return '💰 ' + categoria;
+
+            return '🏷️ ' + categoria; // Ícone padrão
+        }
+
+        // --- 3. Aplicação dos Ícones na Tabela de Histórico ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const linhasTabela = document.querySelectorAll('.table-box tbody tr');
+            linhasTabela.forEach(tr => {
+                const tdCategoria = tr.children[1];
+                if (tdCategoria && tdCategoria.textContent.trim() !== '' && !tdCategoria.textContent.includes('Nenhuma transação')) {
+                    tdCategoria.textContent = getCategoriaIcon(tdCategoria.textContent.trim());
+                }
+            });
+        });
+
+        // --- 4. Renderização do Gráfico com Ícones ---
+        const ctx = document.getElementById('graficoDespesas').getContext('2d');
+        const categoriasData = JSON.parse('{{ categorias | tojson | safe }}');
+
+        // Mapeia os nomes das categorias com ícones para a legenda do gráfico
+        const labelsComIcones = Object.keys(categoriasData).map(cat => getCategoriaIcon(cat));
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labelsComIcones,
+                datasets: [{
+                    data: Object.values(categoriasData),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+                }]
+            }
+        });
+
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader-overlay');
+            if (loader) {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 2000);
+            }
+        });
+
+        /* Calculadora */
+
+        const calcModal = document.getElementById('calc-modal');
+        const openCalcBtn = document.getElementById('open-calc');
+        const closeCalcBtn = document.getElementById('close-calc');
+        const calcScreen = document.getElementById('calc-screen');
+
+        // Abrir e fechar modal
+        openCalcBtn.addEventListener('click', () => calcModal.classList.add('active'));
+        closeCalcBtn.addEventListener('click', () => calcModal.classList.remove('active'));
+
+        // Fechar ao clicar fora do container da calculadora
+        window.addEventListener('click', (event) => {
+            if (event.target === calcModal) {
+                calcModal.classList.remove('active');
+            }
+        });
+
+        // Fechar com a tecla ESC
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && calcModal.classList.contains('active')) {
+                calcModal.classList.remove('active');
+            }
+        });
+
+        // Lógica de cálculo
+        function appendCalc(val) {
+            if (calcScreen.value === '0' || calcScreen.value === 'Erro') {
+                calcScreen.value = val;
+            } else {
+                calcScreen.value += val;
+            }
+        }
+
+        function clearCalc() {
+            calcScreen.value = '0';
+        }
+
+        function backspaceCalc() {
+            calcScreen.value = calcScreen.value.slice(0, -1) || '0';
+        }
+
+        function calculateResult() {
+            try {
+                // Trata os símbolos visuais e calcula o resultado
+                let expression = calcScreen.value.replace(/×/g, '*').replace(/÷/g, '/');
+                calcScreen.value = eval(expression);
+            } catch {
+                calcScreen.value = 'Erro';
+            }
+        }
+
+        document.getElementById('btn-share-report')?.addEventListener('click', async () => {
+            const shareData = {
+                title: 'Relatório Financeiro | Tech Store',
+                text: 'Confira os detalhes e o resumo do relatório financeiro.',
+                url: window.location.href // Pega o link atual da página
+            };
+
+            // Tenta usar a Web Share API (Nativa em dispositivos móveis e navegadores modernos)
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    // Ignora o erro se o usuário simplesmente cancelar o menu de compartilhamento
+                    if (err.name !== 'AbortError') {
+                        console.error('Erro ao compartilhar:', err);
+                    }
+                }
+            } else {
+                // Fallback: Copia o link para a área de transferência caso não haja suporte nativo
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert('Link do relatório copiado para a área de transferência!');
+                } catch (err) {
+                    alert('Não foi possível copiar o link automaticamente.');
+                }
+            }
+        });
+
+        function mascaraMoeda(input) {
+            // 1. Remove tudo que não for dígito
+            let value = input.value.replace(/\D/g, '');
+
+            // 2. Se o campo estiver vazio, limpa o input
+            if (value === '') {
+                input.value = '';
+                return;
+            }
+
+            // 3. Converte para número e divide por 100 para criar as duas casas decimais
+            value = (parseFloat(value) / 100).toFixed(2);
+
+            // 4. Formata o número para o padrão de moeda do Brasil (R$)
+            value = parseFloat(value).toLocaleString('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            // 5. Atualiza o valor no campo de texto
+            input.value = value;
+        }
+    </script>
+</body>
+
+</html>

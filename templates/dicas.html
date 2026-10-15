@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicas de Educação Financeira - Controle Financeiro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Botões Fixos no Canto Superior Direito -->
+    <div class="top-actions">
+        <a href="{{ url_for('index') }}" class="btn-theme-toggle">⬅️ Voltar ao Painel</a>
+        <button id="toggle-theme" class="btn-theme-toggle" type="button">🌙 Modo Escuro</button>
+    </div>
+
+    <div class="container" style="margin-top: 30px;">
+        <div class="header-top">
+            <h1>💡 Guia & Dicas Financeiras</h1>
+        </div>
+
+        <div class="content-grid" style="margin-top: 20px;">
+            <!-- Regra 50/30/20 -->
+            <div class="card" style="text-align: left; padding: 20px;">
+                <h2>📊 Regra dos 50/30/20</h2>
+                <p style="margin-bottom: 10px;">Uma forma simples de organizar seu orçamento mensal:</p>
+                <ul style="padding-left: 20px; line-height: 1.6;">
+                    <li><strong>50% Necessidades:</strong> Aluguel, contas de luz/água, mercado e transporte.</li>
+                    <li><strong>30% Desejos Pessoais:</strong> Lazer, restaurantes, passeios e compras.</li>
+                    <li><strong>20% Objetivos Financeiros:</strong> Reserva de emergência, investimentos e quitação de dívidas.</li>
+                </ul>
+            </div>
+
+            <!-- Reserva de Emergência -->
+            <div class="card" style="text-align: left; padding: 20px;">
+                <h2>🛡️ Reserva de Emergência</h2>
+                <p style="line-height: 1.6;">
+                    Antes de começar a investir em renda variável, monte uma reserva equivalente a <strong>6 meses do seu custo de vida</strong> em aplicações de alta liquidez e baixo risco (como Tesouro Selic ou CDB 100% do CDI).
+                </p>
+            </div>
+
+            <!-- Dicas Práticas -->
+            <div class="card" style="text-align: left; padding: 20px;">
+                <h2>🎯 Hábitos para o Dia a Dia</h2>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Evite compras por impulso:</strong> Espere 24 horas antes de comprar algo fora do orçamento.</li>
+                    <li><strong>Revise assinaturas:</strong> Cancele serviços de streaming e apps que você não usa com frequência.</li>
+                    <li><strong>Acompanhe semanalmente:</strong> Registre suas despesas aqui no painel assim que realizá-las!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Modo Escuro -->
+    <script>
+        (function () {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeBtn = document.getElementById('toggle-theme');
+            if (themeBtn && document.body.classList.contains('dark-mode')) {
+                themeBtn.textContent = '☀️ Modo Claro';
+            }
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const isDark = document.body.classList.contains('dark-mode');
+                    themeBtn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Senha - Org Money</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="auth-body">
+    <button id="toggle-theme" class="btn-theme-toggle" type="button">🌙 Modo Escuro</button>
+
+    <div class="auth-container">
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Org Money" class="auth-logo"
+            style="max-width: 120px; margin: 0 auto 15px auto; display: block; border-radius: 12px;">
+        <h2>🔑 Criar Nova Senha</h2>
+
+        <form action="{{ url_for('redefinir_senha', token=token) }}" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="senha">Nova Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite sua nova senha" required
+                    minlength="6">
+            </div>
+            <button type="submit" class="btn-primary">Redefinir Senha</button>
+        </form>
+    </div>
+</body>
+
+</html>

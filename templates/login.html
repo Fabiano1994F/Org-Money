@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Org Money</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* Splash Screen Overlay */
+        #splash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0d1117;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #splash-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .splash-content {
+            text-align: center;
+        }
+
+        /* Estilização da Logo Org Money na Splash */
+        .splash-logo-img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 16px;
+            filter: drop-shadow(0px 0px 20px rgba(0, 247, 255, 0.4));
+            animation: pulseLogo 1.5s infinite alternate ease-in-out;
+        }
+
+        /* Spinner de carregamento */
+        .splash-spinner {
+            width: 35px;
+            height: 35px;
+            margin: 20px auto 0;
+            border: 3px solid rgba(0, 247, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #00f7ff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Logo do Card de Login */
+        .auth-logo {
+            max-width: 130px;
+            height: auto;
+            margin: 0 auto 15px auto;
+            display: block;
+            border-radius: 12px;
+            filter: drop-shadow(0px 0px 10px rgba(0, 247, 255, 0.2));
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulseLogo {
+            from {
+                transform: scale(0.98);
+                filter: drop-shadow(0px 0px 15px rgba(0, 247, 255, 0.3));
+            }
+
+            to {
+                transform: scale(1.03);
+                filter: drop-shadow(0px 0px 25px rgba(0, 247, 255, 0.6));
+            }
+        }
+    </style>
+</head>
+
+<body class="auth-body">
+
+    <!-- Splash Screen Overlay (desaparece após 2s) -->
+    <div id="splash-overlay">
+        <div class="splash-content">
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Org Money Logo" class="splash-logo-img">
+            <div class="splash-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Botão Fixo no Canto Superior Direito -->
+    <button id="toggle-theme" class="btn-theme-toggle" type="button">🌙 Modo Escuro</button>
+
+    <div class="auth-container">
+        <!-- Logo exibida também no topo do card de login -->
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Org Money" class="auth-logo">
+
+        <h2>🔑 Acessar Sistema</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <label for="senha" style="margin-bottom: 0;">Senha</label>
+                    <a href="{{ url_for('esqueci_senha') }}"
+                        style="font-size: 0.82rem; color: #00f7ff; text-decoration: none;">Esqueceu a senha?</a>
+                </div>
+                <input type="password" id="senha" name="senha" placeholder="Sua senha" required>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 15px;">Entrar</button>
+        </form>
+
+        <p class="auth-footer">
+            Ainda não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se aqui</a>
+        </p>
+    </div>
+
+    <script>
+        // Aplicação rápida de tema antes de renderizar (evita flicker)
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Controle do Modo Escuro / Claro
+            const themeBtn = document.getElementById('toggle-theme');
+            if (themeBtn && document.body.classList.contains('dark-mode')) {
+                themeBtn.textContent = '☀️ Modo Claro';
+            }
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const isDark = document.body.classList.contains('dark-mode');
+                    themeBtn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                });
+            }
+
+            // Ocultar a Splash Screen após 2 segundos
+            setTimeout(() => {
+                const splash = document.getElementById('splash-overlay');
+                if (splash) {
+                    splash.classList.add('hidden');
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>
