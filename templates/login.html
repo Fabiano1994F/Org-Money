@@ -61,18 +61,18 @@
             box-sizing: border-box;
         }
 
-        .auth-top-bar {
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .auth-top-bar .btn-theme-toggle {
-            position: static !important;
-            padding: 6px 12px !important;
-            font-size: 0.8rem !important;
+        /* Botão de Tema no Canto Superior Direito */
+        .top-right-theme-btn {
+            position: fixed !important;
+            top: 16px !important;
+            right: 16px !important;
+            z-index: 1000 !important;
             width: auto !important;
+            padding: 8px 14px !important;
+            font-size: 0.85rem !important;
+            border-radius: 20px !important;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .auth-logo {
@@ -126,7 +126,6 @@
         }
     </style>
 
-    <!-- Aplicação preventiva do tema escuro para evitar "flicker" -->
     <script>
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark-mode');
@@ -144,12 +143,10 @@
         </div>
     </div>
 
-    <div class="auth-container">
-        <!-- Botão de Alternar Tema Organizado no Topo do Card -->
-        <div class="auth-top-bar">
-            <button id="toggle-theme" class="btn-theme-toggle" type="button">🌙 Modo Escuro</button>
-        </div>
+    <!-- Botão de Tema Fixado no Canto Superior Direito -->
+    <button id="toggle-theme" class="btn-theme-toggle top-right-theme-btn" type="button">🌙 Modo Escuro</button>
 
+    <div class="auth-container">
         <!-- Logo e Título -->
         <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Org Money" class="auth-logo">
         <h2 style="text-align: center; margin-bottom: 20px;">🔑 Acessar Sistema</h2>
@@ -188,12 +185,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Sincronização da classe dark-mode no body e no html
             if (document.documentElement.classList.contains('dark-mode')) {
                 document.body.classList.add('dark-mode');
             }
 
-            // Controle de Texto e Clique do Botão de Tema
             const themeBtn = document.getElementById('toggle-theme');
             if (themeBtn) {
                 const isDark = document.body.classList.contains('dark-mode');
@@ -208,7 +203,6 @@
                 });
             }
 
-            // Controle da Splash Screen (Exibe por 1.8s no primeiro acesso da sessão)
             const splash = document.getElementById('splash-overlay');
             if (splash) {
                 if (sessionStorage.getItem('splash_shown')) {
