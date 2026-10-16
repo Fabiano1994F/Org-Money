@@ -394,5 +394,14 @@ def dicas():
     return render_template('dicas.html')
 
 
+IS_VERCEL = os.getenv('VERCEL') == '1'
+
+if IS_VERCEL:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/database.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 if __name__ == '__main__':
     app.run(debug=True)
