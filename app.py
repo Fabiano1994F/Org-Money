@@ -15,17 +15,23 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignat
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv(
-    'SECRET_KEY', 'chave-secreta-para-sessoes-financeiras-123')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-secreta-para-sessoes-financeiras-123')
+
+# --- CONFIGURAÇÃO DO BANCO DE DADOS (Compatível com Vercel) ---
+IS_VERCEL = os.getenv('VERCEL') == '1'
+
+if IS_VERCEL:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/database.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # --- CONFIGURAÇÃO DO FLASK-MAIL (Com fallback para Gmail) ---
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
 app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
 app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-app.config['MAIL_USERNAME'] = os.getenv(
-    'MAIL_USERNAME', 'fabianosant994@gmail.com')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'fabianosant994@gmail.com')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'prkoknjlihvmgnpw')
 app.config['MAIL_DEFAULT_SENDER'] = ('Org Money', app.config['MAIL_USERNAME'])
 
@@ -41,15 +47,13 @@ login_manager.login_message_category = 'danger'
 
 # --- HELPER DE CONVERSÃO DE MONETÁRIO BRL PARA FLOAT ---
 
-
 def converter_brl_para_float(valor_input):
     if not valor_input:
         return 0.0
     if isinstance(valor_input, (int, float)):
         return float(valor_input)
 
-    valor_limpo = str(valor_input).replace(
-        'R$', '').replace('.', '').replace(',', '.').strip()
+    valor_limpo = str(valor_input).replace('R$', '').replace('.', '').replace(',', '.').strip()
     try:
         return float(valor_limpo)
     except ValueError:
@@ -57,17 +61,14 @@ def converter_brl_para_float(valor_input):
 
 # --- MODELOS DO BANCO DE DADOS ---
 
-
 class Usuario(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha_hash = db.Column(db.String(200), nullable=False)
 
-    transacoes = db.relationship(
-        'Transacao', backref='usuario', lazy=True, cascade="all, delete-orphan")
-    configuracoes = db.relationship(
-        'Configuracao', backref='usuario', lazy=True, cascade="all, delete-orphan")
+    transacoes = db.relationship('Transacao', backref='usuario', lazy=True, cascade="all, delete-orphan")
+    configuracoes = db.relationship('Configuracao', backref='usuario', lazy=True, cascade="all, delete-orphan")
 
     def set_senha(self, senha):
         self.senha_hash = generate_password_hash(senha)
@@ -84,15 +85,13 @@ class Transacao(db.Model):
     categoria = db.Column(db.String(50), nullable=False)
     data = db.Column(db.DateTime, default=datetime.utcnow)
 
-    usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuario.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
 
 
 class Configuracao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     receita_fixa = db.Column(db.Float, default=0.0)
-    usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuario.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
 
 
 @login_manager.user_loader
@@ -100,11 +99,11 @@ def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
 
+# Criação das tabelas no contexto correto da aplicação
 with app.app_context():
     db.create_all()
 
 # --- FILTRO DE FORMATAÇÃO DE MOEDA (BRL) ---
-
 
 @app.template_filter('formato_brl')
 def formato_brl(valor):
@@ -113,7 +112,6 @@ def formato_brl(valor):
     return f"{valor:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
 # --- SPLASH & AUTENTICAÇÃO ---
-
 
 @app.route('/')
 def splash():
@@ -178,7 +176,6 @@ def logout():
 
 # --- ROTAS DE RECUPERAÇÃO DE SENHA ---
 
-
 @app.route('/esqueci_senha', methods=['GET', 'POST'])
 def esqueci_senha():
     if request.method == 'POST':
@@ -189,8 +186,7 @@ def esqueci_senha():
             token = serializer.dumps(email, salt='recuperacao-senha-salt')
             link = url_for('redefinir_senha', token=token, _external=True)
 
-            msg = Message('Org Money - Redefinição de Senha',
-                          recipients=[email])
+            msg = Message('Org Money - Redefinição de Senha', recipients=[email])
             msg.body = f'''Olá, {usuario.nome}!
 
 Você solicitou a redefinição de senha da sua conta no Org Money.
@@ -202,15 +198,12 @@ Se você não solicitou essa alteração, ignore este e-mail. O link expira em 3
 '''
             try:
                 mail.send(msg)
-                flash(
-                    'E-mail de redefinição enviado! Verifique sua caixa de entrada.', 'success')
+                flash('E-mail de redefinição enviado! Verifique sua caixa de entrada.', 'success')
             except Exception as e:
-                print(f"ERRO SMTP: {e}")  # Exibe a falha exata no terminal
-                flash(
-                    'Erro ao enviar e-mail. Verifique as configurações de SMTP.', 'danger')
+                print(f"ERRO SMTP: {e}")
+                flash('Erro ao enviar e-mail. Verifique as configurações de SMTP.', 'danger')
         else:
-            flash(
-                'Se o e-mail estiver cadastrado, você receberá o link de redefinição.', 'info')
+            flash('Se o e-mail estiver cadastrado, você receberá o link de redefinição.', 'info')
 
         return redirect(url_for('login'))
 
@@ -220,8 +213,7 @@ Se você não solicitou essa alteração, ignore este e-mail. O link expira em 3
 @app.route('/redefinir_senha/<token>', methods=['GET', 'POST'])
 def redefinir_senha(token):
     try:
-        email = serializer.loads(
-            token, salt='recuperacao-senha-salt', max_age=1800)
+        email = serializer.loads(token, salt='recuperacao-senha-salt', max_age=1800)
     except (SignatureExpired, BadTimeSignature):
         flash('O link de redefinição é inválido ou expirou. Solicite um novo.', 'danger')
         return redirect(url_for('esqueci_senha'))
@@ -233,14 +225,12 @@ def redefinir_senha(token):
         usuario.set_senha(nova_senha)
         db.session.commit()
 
-        flash(
-            'Sua senha foi redefinida com sucesso! Faça login com a nova senha.', 'success')
+        flash('Sua senha foi redefinida com sucesso! Faça login com a nova senha.', 'success')
         return redirect(url_for('login'))
 
     return render_template('redefinir_senha.html', token=token)
 
 # --- ROTAS PRINCIPAIS DO PAINEL ---
-
 
 @app.route('/dashboard')
 @login_required
@@ -261,8 +251,7 @@ def index():
         extract('year', Transacao.data) == ano_selecionado
     ).order_by(Transacao.data.desc()).all()
 
-    receitas_transacoes = sum(
-        t.valor for t in transacoes if t.tipo == 'receita')
+    receitas_transacoes = sum(t.valor for t in transacoes if t.tipo == 'receita')
     total_receitas = config.receita_fixa + receitas_transacoes
     total_despesas = sum(t.valor for t in transacoes if t.tipo == 'despesa')
     saldo = total_receitas - total_despesas
@@ -312,8 +301,7 @@ def definir_receita():
     nova_receita = converter_brl_para_float(request.form.get('receita_fixa'))
     config = Configuracao.query.filter_by(usuario_id=current_user.id).first()
     if not config:
-        config = Configuracao(receita_fixa=nova_receita,
-                              usuario_id=current_user.id)
+        config = Configuracao(receita_fixa=nova_receita, usuario_id=current_user.id)
         db.session.add(config)
     else:
         config.receita_fixa = nova_receita
@@ -325,8 +313,7 @@ def definir_receita():
 @app.route('/deletar/<int:id>')
 @login_required
 def deletar(id):
-    transacao = Transacao.query.filter_by(
-        id=id, usuario_id=current_user.id).first_or_404()
+    transacao = Transacao.query.filter_by(id=id, usuario_id=current_user.id).first_or_404()
     db.session.delete(transacao)
     db.session.commit()
     return redirect(url_for('index'))
@@ -335,8 +322,7 @@ def deletar(id):
 @app.route('/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar(id):
-    transacao = Transacao.query.filter_by(
-        id=id, usuario_id=current_user.id).first_or_404()
+    transacao = Transacao.query.filter_by(id=id, usuario_id=current_user.id).first_or_404()
     if request.method == 'POST':
         transacao.descricao = request.form.get('descricao')
         transacao.valor = converter_brl_para_float(request.form.get('valor'))
@@ -365,8 +351,7 @@ def exportar_csv():
     output = io.StringIO()
     writer = csv.writer(output, delimiter=';')
 
-    writer.writerow(['ID', 'Data', 'Descrição',
-                    'Tipo', 'Categoria', 'Valor (R$)'])
+    writer.writerow(['ID', 'Data', 'Descrição', 'Tipo', 'Categoria', 'Valor (R$)'])
 
     for t in transacoes:
         writer.writerow([
@@ -393,15 +378,6 @@ def exportar_csv():
 def dicas():
     return render_template('dicas.html')
 
-
-IS_VERCEL = os.getenv('VERCEL') == '1'
-
-if IS_VERCEL:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/database.db'
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 if __name__ == '__main__':
     app.run(debug=True)
