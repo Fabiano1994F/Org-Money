@@ -533,7 +533,7 @@ body.dark-mode .calc-btn.danger {
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE (Tablets e Telemóveis - Até 768px)
+   RESPONSIVIDADE (Tablets e Celulares - Até 768px)
    ========================================================================== */
 @media (max-width: 768px) {
     body {
@@ -559,7 +559,7 @@ body.dark-mode .calc-btn.danger {
         word-break: break-word;
     }
 
-    /* Força os botões do topo a organizarem-se em bloco sem sobreporem conteúdos */
+    /* Ações de Topo dentro do Painel (Dashboard) */
     .top-actions {
         display: flex !important;
         flex-direction: column !important;
@@ -567,17 +567,29 @@ body.dark-mode .calc-btn.danger {
         gap: 8px !important;
         align-items: stretch !important;
         position: static !important;
-        /* Desativa a posição fixa para não tapar inputs */
     }
 
     .top-actions a,
-    .top-actions button,
+    .top-actions button {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        padding: 10px !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* REGRA EXCLUSIVA DO BOTÃO DE TEMA (Fixado no Canto Superior Direito) */
     .btn-theme-toggle,
-    .top-right-theme-btn {
+    .top-right-theme-btn,
+    button#toggle-theme {
         position: fixed !important;
         top: 15px !important;
         right: 15px !important;
         width: auto !important;
+        min-width: unset !important;
         max-width: fit-content !important;
         z-index: 10000 !important;
         padding: 8px 14px !important;
@@ -589,16 +601,19 @@ body.dark-mode .calc-btn.danger {
         backdrop-filter: blur(8px) !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
         color: #333 !important;
+        margin: 0 !important;
     }
 
     body.dark-mode .btn-theme-toggle,
-    body.dark-mode .top-right-theme-btn {
+    body.dark-mode .top-right-theme-btn,
+    body.dark-mode button#toggle-theme {
         background: rgba(30, 30, 30, 0.9) !important;
         border-color: #444 !important;
         color: #fff !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
     }
 
+    /* Área de Filtros e Formuários */
     .filter-container {
         display: flex !important;
         flex-direction: column !important;
@@ -616,13 +631,13 @@ body.dark-mode .calc-btn.danger {
         gap: 10px !important;
     }
 
-    form input,
-    form select,
-    form button,
-    .btn-csv,
-    .btn-share,
+    /* Inputs e botões do formulário principal (exclui o botão de tema) */
+    .auth-form input,
+    .auth-form button,
     .filter-container button,
-    .filter-container select {
+    .filter-container select,
+    .btn-csv,
+    .btn-share {
         width: 100% !important;
         min-width: 100% !important;
         box-sizing: border-box !important;
