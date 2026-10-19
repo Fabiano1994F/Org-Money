@@ -532,6 +532,16 @@ body.dark-mode .calc-btn.danger {
     color: #f8d7da;
 }
 
+.user-greeting,
+.header-top {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    padding-right: 120px; /* Garante espaço para o botão de tema não sobrepor */
+    text-align: right;
+}
+
 /* ==========================================================================
    RESPONSIVIDADE AJUSTADA (Tablets e Telemóveis - Até 768px)
    ========================================================================== */
@@ -542,13 +552,16 @@ body.dark-mode .calc-btn.danger {
     }
 
     /* Mensagem de boas-vindas no topo */
-    .header-top,
     .user-greeting,
-    .welcome-text {
-        margin-top: 15px !important;
-        text-align: center !important;
+    .header-top {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
         width: 100% !important;
-        word-break: break-word !important;
+        padding-right: 100px !important; /* Mantém o afastamento do botão de tema */
+        margin-top: 5px !important;
+        text-align: right !important;
+        font-size: 0.85rem !important;
     }
 
     /* Botões de topo (Dicas, Calculadora) */
