@@ -533,33 +533,25 @@ body.dark-mode .calc-btn.danger {
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE (Tablets e Celulares - Até 768px)
+   RESPONSIVIDADE AJUSTADA (Tablets e Telemóveis - Até 768px)
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        padding: 10px 8px !important;
+        padding: 50px 10px 10px 10px !important; /* Espaço superior reforçado para não tapar com o botão de tema */
         overflow-x: hidden;
     }
 
-    .header-top {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
+    /* Ajuste da mensagem de boas-vindas no topo */
+    .header-top,
+    .user-greeting,
+    .welcome-text {
+        margin-top: 15px !important;
         text-align: center !important;
-        gap: 12px !important;
         width: 100% !important;
-        margin-bottom: 20px !important;
+        word-break: break-word !important;
     }
 
-    .header-top h1,
-    .header-top h2 {
-        font-size: 1.4rem !important;
-        margin: 0 !important;
-        word-break: break-word;
-    }
-
-    /* Ações de Topo dentro do Painel (Dashboard) */
+    /* Botões de topo (Dicas, Calculadora) */
     .top-actions {
         display: flex !important;
         flex-direction: column !important;
@@ -567,6 +559,7 @@ body.dark-mode .calc-btn.danger {
         gap: 8px !important;
         align-items: stretch !important;
         position: static !important;
+        margin-top: 10px !important;
     }
 
     .top-actions a,
@@ -581,25 +574,25 @@ body.dark-mode .calc-btn.danger {
         font-size: 0.9rem !important;
     }
 
-    /* REGRA EXCLUSIVA DO BOTÃO DE TEMA (Fixado no Canto Superior Direito) */
+    /* BOTÃO DE TEMA FIXO (Com z-index e posicionamento preciso) */
     .btn-theme-toggle,
     .top-right-theme-btn,
     button#toggle-theme {
         position: fixed !important;
-        top: 15px !important;
-        right: 15px !important;
+        top: 10px !important;
+        right: 10px !important;
         width: auto !important;
         min-width: unset !important;
         max-width: fit-content !important;
-        z-index: 10000 !important;
-        padding: 8px 14px !important;
-        font-size: 0.85rem !important;
+        z-index: 99999 !important;
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
         border-radius: 20px !important;
-        background: rgba(255, 255, 255, 0.9) !important;
+        background: rgba(255, 255, 255, 0.92) !important;
         border: 1px solid #ccc !important;
         cursor: pointer !important;
         backdrop-filter: blur(8px) !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
         color: #333 !important;
         margin: 0 !important;
     }
@@ -607,13 +600,31 @@ body.dark-mode .calc-btn.danger {
     body.dark-mode .btn-theme-toggle,
     body.dark-mode .top-right-theme-btn,
     body.dark-mode button#toggle-theme {
-        background: rgba(30, 30, 30, 0.9) !important;
+        background: rgba(30, 30, 30, 0.92) !important;
         border-color: #444 !important;
         color: #fff !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
     }
 
-    /* Área de Filtros e Formuários */
+    /* AJUSTE DO FORMULÁRIO DE RECEITA MENSAL / SALÁRIO */
+    .receita-form,
+    form[action*="definir_receita"] {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+
+    .receita-form input,
+    .receita-form button,
+    form[action*="definir_receita"] input,
+    form[action*="definir_receita"] button {
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Filtros e Ações de Relatório */
     .filter-container {
         display: flex !important;
         flex-direction: column !important;
@@ -631,11 +642,9 @@ body.dark-mode .calc-btn.danger {
         gap: 10px !important;
     }
 
-    /* Inputs e botões do formulário principal (exclui o botão de tema) */
-    .auth-form input,
-    .auth-form button,
-    .filter-container button,
-    .filter-container select,
+    form input,
+    form select,
+    form button,
     .btn-csv,
     .btn-share {
         width: 100% !important;
