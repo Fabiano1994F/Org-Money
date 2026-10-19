@@ -5,3 +5,4 @@ Flask-Mail
 itsdangerous
 python-dotenv
 Werkzeug
+psycopg2-binary

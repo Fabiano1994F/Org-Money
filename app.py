@@ -18,10 +18,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-secreta-para-sessoes-financeiras-123')
 
 # --- CONFIGURAÇÃO DO BANCO DE DADOS (Compatível com Vercel) ---
-IS_VERCEL = os.getenv('VERCEL') == '1'
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-if IS_VERCEL:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/database.db'
+if DATABASE_URL:
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
