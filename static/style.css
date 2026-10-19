@@ -537,11 +537,11 @@ body.dark-mode .calc-btn.danger {
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        padding: 50px 10px 10px 10px !important; /* Espaço superior reforçado para não tapar com o botão de tema */
+        padding: 50px 10px 10px 10px !important;
         overflow-x: hidden;
     }
 
-    /* Ajuste da mensagem de boas-vindas no topo */
+    /* Mensagem de boas-vindas no topo */
     .header-top,
     .user-greeting,
     .welcome-text {
@@ -574,7 +574,7 @@ body.dark-mode .calc-btn.danger {
         font-size: 0.9rem !important;
     }
 
-    /* BOTÃO DE TEMA FIXO (Com z-index e posicionamento preciso) */
+    /* BOTÃO DE TEMA FIXO */
     .btn-theme-toggle,
     .top-right-theme-btn,
     button#toggle-theme {
@@ -606,7 +606,7 @@ body.dark-mode .calc-btn.danger {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
     }
 
-    /* AJUSTE DO FORMULÁRIO DE RECEITA MENSAL / SALÁRIO */
+    /* FORMULÁRIO DE RECEITA MENSAL / SALÁRIO */
     .receita-form,
     form[action*="definir_receita"] {
         display: flex !important;
@@ -624,7 +624,7 @@ body.dark-mode .calc-btn.danger {
         box-sizing: border-box !important;
     }
 
-    /* Filtros e Ações de Relatório */
+    /* FILTROS E BOTÕES DE AÇÃO (CSV, PDF, COMPARTILHAR) */
     .filter-container {
         display: flex !important;
         flex-direction: column !important;
@@ -642,14 +642,35 @@ body.dark-mode .calc-btn.danger {
         gap: 10px !important;
     }
 
+    /* Garante alinhamento centralizado do texto + ícone em todos os botões de relatórios */
     form input,
     form select,
     form button,
     .btn-csv,
-    .btn-share {
+    .btn-share,
+    button[onclick*="share"],
+    .btn-share-report {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
         width: 100% !important;
         min-width: 100% !important;
         box-sizing: border-box !important;
+        padding: 12px 15px !important;
+        font-size: 0.95rem !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+
+    /* Ajusta ícones dentro dos botões para não desalinharem o texto */
+    .btn-share svg,
+    .btn-share i,
+    .btn-csv i,
+    .btn-share-report i {
+        display: inline-block !important;
+        margin: 0 !important;
+        vertical-align: middle !important;
     }
 
     .cards,
