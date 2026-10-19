@@ -58,15 +58,26 @@ body.dark-mode label {
 /* ==========================================================================
    SAUDAÇÃO DO USUÁRIO (CANTO SUPERIOR DIREITO)
    ========================================================================== */
-.user-greeting,
 .header-top {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    padding-right: 120px; /* Garante afastamento do botão de tema */
-    text-align: right;
-    margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-right: 120px; /* Mantém espaço livre para o botão de tema no desktop */
+    box-sizing: border-box;
+}
+
+.user-greeting {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.user-greeting a {
+    color: var(--red-color);
+    text-decoration: none;
+    margin-left: 5px;
 }
 
 /* ==========================================================================
@@ -549,67 +560,63 @@ body.dark-mode .calc-btn.danger {
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        padding: 45px 10px 10px 10px !important;
+        padding: 55px 12px 12px 12px !important;
         overflow-x: hidden;
     }
 
-    /* Mensagem de boas-vindas no canto superior direito */
-    .user-greeting,
+    /* Estrutura do Cabeçalho Mobile */
     .header-top {
         display: flex !important;
-        justify-content: flex-end !important;
-        align-items: center !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
         width: 100% !important;
-        padding-right: 110px !important;
-        margin-top: 0 !important;
-        text-align: right !important;
-        font-size: 0.85rem !important;
+        padding-right: 100px !important; /* Liberta espaço para o botão de tema fixo */
+        margin-bottom: 15px !important;
     }
 
-    /* Botões de topo (Dicas, Calculadora) */
+    .user-greeting {
+        width: 100% !important;
+        text-align: left !important;
+        font-size: 0.9rem !important;
+        word-break: break-word !important;
+    }
+
+    /* Botões de topo (Dicas, Calculadora) alinhados em largura total */
     .top-actions {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         gap: 8px !important;
         align-items: stretch !important;
-        position: static !important;
         margin-top: 10px !important;
     }
 
     .top-actions a,
     .top-actions button {
-        position: static !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        text-align: center !important;
+        display: flex !important;
+        align-items: center !important;
         justify-content: center !important;
+        width: 100% !important;
         box-sizing: border-box !important;
         padding: 10px !important;
         font-size: 0.9rem !important;
     }
 
-    /* BOTÃO DE TEMA FIXO */
+    /* BOTÃO DE TEMA FIXO NO CANTO SUPERIOR DIREITO */
     .btn-theme-toggle,
     .top-right-theme-btn,
     button#toggle-theme {
         position: fixed !important;
         top: 10px !important;
         right: 10px !important;
-        width: auto !important;
-        min-width: unset !important;
-        max-width: fit-content !important;
         z-index: 99999 !important;
         padding: 6px 12px !important;
         font-size: 0.8rem !important;
         border-radius: 20px !important;
         background: rgba(255, 255, 255, 0.92) !important;
         border: 1px solid #ccc !important;
-        cursor: pointer !important;
-        backdrop-filter: blur(8px) !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-        color: #333 !important;
-        margin: 0 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
     }
 
     body.dark-mode .btn-theme-toggle,
@@ -618,93 +625,30 @@ body.dark-mode .calc-btn.danger {
         background: rgba(30, 30, 30, 0.92) !important;
         border-color: #444 !important;
         color: #fff !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
     }
 
-    /* FORMULÁRIO DE RECEITA MENSAL / SALÁRIO */
+    /* Formulário de Receita e Filtros */
     .receita-form,
-    form[action*="definir_receita"] {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 10px !important;
-    }
-
-    .receita-form input,
-    .receita-form button,
-    form[action*="definir_receita"] input,
-    form[action*="definir_receita"] button {
-        width: 100% !important;
-        min-width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    /* FILTROS E BOTÕES DE AÇÃO (CSV, PDF, COMPARTILHAR) */
+    form[action*="definir_receita"],
     .filter-container {
         display: flex !important;
         flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 10px !important;
         width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 15px !important;
-    }
-
-    .filter-container form {
-        width: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
         gap: 10px !important;
     }
 
-    /* Garante alinhamento centralizado do texto + ícone em todos os botões de relatórios */
     form input,
     form select,
     form button,
     .btn-csv,
-    .btn-share,
-    button[onclick*="share"],
-    .btn-share-report {
+    .btn-share {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 8px !important;
         width: 100% !important;
-        min-width: 100% !important;
         box-sizing: border-box !important;
         padding: 12px 15px !important;
         font-size: 0.95rem !important;
-        text-align: center !important;
-        margin: 0 !important;
-    }
-
-    .btn-share svg,
-    .btn-share i,
-    .btn-csv i,
-    .btn-share-report i {
-        display: inline-block !important;
-        margin: 0 !important;
-        vertical-align: middle !important;
-    }
-
-    .cards,
-    .content-grid {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 15px !important;
-    }
-
-    .chart-box,
-    .table-box {
-        width: 100% !important;
-        min-width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    .table-box {
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
     }
 }
 
