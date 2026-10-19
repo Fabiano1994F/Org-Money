@@ -556,99 +556,135 @@ body.dark-mode .calc-btn.danger {
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE AJUSTADA (Tablets e Telemóveis - Até 768px)
+   RESPONSIVIDADE AJUSTADA (Tablets e Celulares - Até 768px)
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        padding: 55px 12px 12px 12px !important;
+        padding: 50px 12px 12px 12px !important;
         overflow-x: hidden;
     }
 
-    /* Estrutura do Cabeçalho Mobile */
-    .header-top {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        justify-content: flex-start !important;
-        width: 100% !important;
-        padding-right: 100px !important; /* Liberta espaço para o botão de tema fixo */
-        margin-bottom: 15px !important;
-    }
-
-    .user-greeting {
-        width: 100% !important;
-        text-align: left !important;
-        font-size: 0.9rem !important;
-        word-break: break-word !important;
-    }
-
-    /* Botões de topo (Dicas, Calculadora) alinhados em largura total */
-    .top-actions {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 8px !important;
-        align-items: stretch !important;
-        margin-top: 10px !important;
-    }
-
-    .top-actions a,
-    .top-actions button {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 10px !important;
-        font-size: 0.9rem !important;
-    }
-
-    /* BOTÃO DE TEMA FIXO NO CANTO SUPERIOR DIREITO */
+    /* BOTÃO DE TEMA COMPACTO E FIXO À DIREITA */
     .btn-theme-toggle,
     .top-right-theme-btn,
-    button#toggle-theme {
+    button#toggle-theme,
+    .top-actions .btn-theme-toggle {
         position: fixed !important;
-        top: 10px !important;
-        right: 10px !important;
+        top: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        min-width: unset !important;
+        max-width: fit-content !important;
         z-index: 99999 !important;
-        padding: 6px 12px !important;
+        padding: 6px 14px !important;
         font-size: 0.8rem !important;
         border-radius: 20px !important;
         background: rgba(255, 255, 255, 0.92) !important;
         border: 1px solid #ccc !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+        color: #333 !important;
+        margin: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
     body.dark-mode .btn-theme-toggle,
     body.dark-mode .top-right-theme-btn,
-    body.dark-mode button#toggle-theme {
+    body.dark-mode button#toggle-theme,
+    body.dark-mode .top-actions .btn-theme-toggle {
         background: rgba(30, 30, 30, 0.92) !important;
         border-color: #444 !important;
         color: #fff !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
     }
 
-    /* Formulário de Receita e Filtros */
-    .receita-form,
-    form[action*="definir_receita"],
-    .filter-container {
+    /* SAUDAÇÃO DO USUÁRIO */
+    .header-top,
+    .user-greeting {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: 100% !important;
+        padding-right: 110px !important; /* Libera espaço para o botão compacto de tema */
+        margin-bottom: 12px !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* BOTÕES DICAS E CALCULADORA (100% DA LARGURA) */
+    .top-actions {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         gap: 10px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .top-actions a,
+    .top-actions button:not(.btn-theme-toggle) {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 12px !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+
+    /* FILTROS, RECEITAS E BOTÕES DE AÇÃO (100% DA LARGURA) */
+    .filter-container,
+    .filter-container form,
+    .receita-form,
+    form[action*="definir_receita"] {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
     }
 
     form input,
     form select,
     form button,
     .btn-csv,
-    .btn-share {
+    .btn-share,
+    button[onclick*="share"] {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
+        gap: 8px !important;
         width: 100% !important;
+        min-width: 100% !important;
         box-sizing: border-box !important;
         padding: 12px 15px !important;
         font-size: 0.95rem !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+
+    .cards,
+    .content-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 15px !important;
+    }
+
+    .chart-box,
+    .table-box {
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .table-box {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
     }
 }
 
