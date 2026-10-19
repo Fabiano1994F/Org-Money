@@ -56,6 +56,20 @@ body.dark-mode label {
 }
 
 /* ==========================================================================
+   SAUDAÇÃO DO USUÁRIO (CANTO SUPERIOR DIREITO)
+   ========================================================================== */
+.user-greeting,
+.header-top {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    padding-right: 120px; /* Garante afastamento do botão de tema */
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+/* ==========================================================================
    BOTÕES DE AÇÃO E BOTÃO DE TEMA (MODO ESCURO / CLARO)
    ========================================================================== */
 .btn-theme-toggle {
@@ -291,7 +305,6 @@ td.despesa {
     font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    margin-left: 10px;
 }
 
 .btn-share:hover {
@@ -300,7 +313,7 @@ td.despesa {
 }
 
 /* ==========================================================================
-   ESTILOS PARA AS TELAS DE AUTENTICAÇÃO (LOGIN / CADASTRO)
+   TELAS DE AUTENTICAÇÃO (LOGIN / CADASTRO)
    ========================================================================== */
 .auth-body {
     display: flex;
@@ -371,7 +384,6 @@ body.dark-mode .auth-container {
     text-decoration: underline;
 }
 
-/* Mensagens de Alerta */
 .alert {
     padding: 10px;
     margin-bottom: 15px;
@@ -532,34 +544,24 @@ body.dark-mode .calc-btn.danger {
     color: #f8d7da;
 }
 
-.user-greeting,
-.header-top {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 15px;
-    padding-right: 120px; /* Garante espaço para o botão de tema não sobrepor */
-    text-align: right;
-}
-
 /* ==========================================================================
    RESPONSIVIDADE AJUSTADA (Tablets e Telemóveis - Até 768px)
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        padding: 50px 10px 10px 10px !important;
+        padding: 45px 10px 10px 10px !important;
         overflow-x: hidden;
     }
 
-    /* Mensagem de boas-vindas no topo */
+    /* Mensagem de boas-vindas no canto superior direito */
     .user-greeting,
     .header-top {
         display: flex !important;
         justify-content: flex-end !important;
         align-items: center !important;
         width: 100% !important;
-        padding-right: 100px !important; /* Mantém o afastamento do botão de tema */
-        margin-top: 5px !important;
+        padding-right: 110px !important;
+        margin-top: 0 !important;
         text-align: right !important;
         font-size: 0.85rem !important;
     }
@@ -676,7 +678,6 @@ body.dark-mode .calc-btn.danger {
         margin: 0 !important;
     }
 
-    /* Ajusta ícones dentro dos botões para não desalinharem o texto */
     .btn-share svg,
     .btn-share i,
     .btn-csv i,
