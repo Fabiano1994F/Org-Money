@@ -17,13 +17,17 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-secreta-para-sessoes-financeiras-123')
 
-# --- CONFIGURAÇÃO DO BANCO DE DADOS (Compatível com Vercel) ---
+# --- CONFIGURAÇÃO DO BANCO DE DADOS (Compatível com Vercel + Neon PostgreSQL) ---
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 if DATABASE_URL:
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+    }
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
@@ -101,9 +105,12 @@ def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
 
-# Criação das tabelas no contexto correto da aplicação
-with app.app_context():
-    db.create_all()
+# Criação segura das tabelas sem travar a inicialização serverless
+try:
+    with app.app_context():
+        db.create_all()
+except Exception as e:
+    print(f"Erro ao inicializar tabelas do banco de dados: {e}")
 
 # --- FILTRO DE FORMATAÇÃO DE MOEDA (BRL) ---
 
