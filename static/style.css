@@ -593,6 +593,43 @@ body.dark-mode .btn-action-top {
     filter: brightness(1.05);
 }
 
+.filter-actions-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.filter-actions-row .btn-csv,
+.filter-actions-row .btn-share {
+    flex: 1;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 10px 12px !important;
+    font-size: 0.85rem !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .filter-actions-row {
+        display: flex !important;
+        flex-direction: row !important; /* Mantém na mesma linha no mobile */
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .filter-actions-row .btn-csv,
+    .filter-actions-row .btn-share {
+        width: 50% !important;
+        min-width: unset !important;
+    }
+}
+
 /* ==========================================================================
    RESPONSIVIDADE MOBILE (Até 768px)
    ========================================================================== */
