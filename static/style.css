@@ -647,7 +647,7 @@ body.dark-mode .btn-action-top {
         align-items: stretch !important;
     }
 
-    /* FORÇA DICAS E CALCULADORA A OCUPAREM O MESMO LARGURA DOS CARDS */
+    /* REMOVE RECUOS INTERNOS DOS BOTÕES DE DICAS E CALCULADORA */
     .top-actions a,
     .top-actions button:not(#toggle-theme),
     .btn-action-top {
