@@ -96,21 +96,21 @@
 
     <div class="container">
 
-        <div class="header-top">
-            <div>
-                <p class="user-greeting">
-                    👤 Olá, <strong>{{ usuario_nome }}</strong> |
-                    <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
-                </p>
-            </div>
-            <!-- Botão de Tema separado para posicionamento fixo correto -->
-            <button id="toggle-theme" class="btn-theme-toggle top-right-theme-btn" type="button">🌙 Modo Escuro</button>
+        <!-- Botão de Tema Fixado no Canto Superior Direito -->
+        <button id="toggle-theme" class="btn-theme-toggle top-right-theme-btn" type="button">🌙 Modo Escuro</button>
 
-            <!-- Container exclusivo para Dicas e Calculadora -->
-            <div class="top-actions">
-                <a href="{{ url_for('dicas') }}" class="btn-action-top">💡 Dicas</a>
-                <button id="open-calc" class="btn-action-top" type="button">🧮 Calculadora</button>
-            </div>
+        <!-- Cabeçalho de Saudação do Usuário -->
+        <div class="header-top">
+            <p class="user-greeting">
+                👤 Olá, <strong>{{ usuario_nome }}</strong> |
+                <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+            </p>
+        </div>
+
+        <!-- Container Exclusivo de Ações (Ocupa 100% da Largura da Tela) -->
+        <div class="top-actions">
+            <a href="{{ url_for('dicas') }}" class="btn-action-top">💡 Dicas</a>
+            <button id="open-calc" class="btn-action-top" type="button">🧮 Calculadora</button>
         </div>
 
         <!-- Seletor de Mês e Ano -->
