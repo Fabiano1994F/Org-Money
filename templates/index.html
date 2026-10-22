@@ -103,10 +103,13 @@
                     <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
                 </p>
             </div>
+            <!-- Botão de Tema separado para posicionamento fixo correto -->
+            <button id="toggle-theme" class="btn-theme-toggle top-right-theme-btn" type="button">🌙 Modo Escuro</button>
+
+            <!-- Container exclusivo para Dicas e Calculadora -->
             <div class="top-actions">
-                <a href="{{ url_for('dicas') }}" class="btn-theme-toggle">💡 Dicas</a>
-                <button id="open-calc" class="btn-theme-toggle" type="button">🧮 Calculadora</button>
-                <button id="toggle-theme" class="btn-theme-toggle" type="button">🌙 Modo Escuro</button>
+                <a href="{{ url_for('dicas') }}" class="btn-action-top">💡 Dicas</a>
+                <button id="open-calc" class="btn-action-top" type="button">🧮 Calculadora</button>
             </div>
         </div>
 
@@ -169,7 +172,7 @@
         <!-- Cards de Resumo -->
         <div class="cards">
             <div class="card receita">
-                <h3>Receitas</h3>
+                <h3>Receita</h3>
                 <p>R$ {{ receitas | formato_brl }}</p>
             </div>
             <div class="card despesa">

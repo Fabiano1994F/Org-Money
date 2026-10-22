@@ -557,23 +557,47 @@ body.dark-mode .calc-btn.danger {
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE AJUSTADA (Tablets e Celulares - Até 768px)
+   NOVOS BOTÕES DE AÇÃO DO TOPO (DICAS E CALCULADORA)
+   ========================================================================== */
+.btn-action-top {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+body.dark-mode .btn-action-top {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.btn-action-top:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE MOBILE (Até 768px)
    ========================================================================== */
 @media (max-width: 768px) {
-    body {
-        padding: 55px 12px 12px 12px !important;
-        overflow-x: hidden;
-    }
 
-    /* BOTÃO DE TEMA FIXO COMPACTO */
-    button#toggle-theme,
+    /* BOTÃO MODO CLARO/ESCURO COMPACTO E FIXO */
+    #toggle-theme,
     .top-right-theme-btn {
         position: fixed !important;
         top: 10px !important;
         right: 10px !important;
         width: auto !important;
         min-width: unset !important;
-        max-width: fit-content !important;
         z-index: 99999 !important;
         padding: 6px 12px !important;
         font-size: 0.8rem !important;
@@ -582,122 +606,32 @@ body.dark-mode .calc-btn.danger {
         border: 1px solid #ccc !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
         color: #333 !important;
-        margin: 0 !important;
     }
 
-    body.dark-mode button#toggle-theme,
+    body.dark-mode #toggle-theme,
     body.dark-mode .top-right-theme-btn {
         background: rgba(30, 30, 30, 0.95) !important;
         border-color: #444 !important;
         color: #fff !important;
     }
 
-    /* SAUDAÇÃO DO UTILIZADOR */
-    .header-top,
-    .user-greeting {
-        display: block !important;
-        width: 100% !important;
-        padding-right: 110px !important;
-        margin-bottom: 15px !important;
-        font-size: 0.95rem !important;
-        font-weight: 600 !important;
-        text-align: left !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-    }
-
-    .user-greeting a {
-        color: var(--red-color) !important;
-        text-decoration: none !important;
-        margin-left: 8px !important;
-        font-weight: bold !important;
-    }
-
-    /* FORÇA A DIV .top-actions A OCUPAR 100% DA LARGURA DA TELA SEM RECUOS */
+    /* CONTAINER DICAS E CALCULADORA (LARGURA TOTAL 100%) */
     .top-actions {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
-        max-width: 100% !important;
         gap: 10px !important;
         margin-bottom: 20px !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
     }
 
-    /* BOTÕES DICAS E CALCULADORA (ALINHAMENTO EXATO ÀS CAIXAS DE BAIXO) */
-    .top-actions a,
-    .top-actions button:not(#toggle-theme),
-    .top-actions .btn-theme-toggle:not(#toggle-theme) {
+    .btn-action-top {
         display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
         width: 100% !important;
         min-width: 100% !important;
-        max-width: 100% !important;
         box-sizing: border-box !important;
         padding: 14px 15px !important;
-        font-size: 0.95rem !important;
-        font-weight: bold !important;
-        border-radius: 8px !important;
-        border: 1px solid var(--border-color) !important;
-        background: var(--card-bg) !important;
-        color: var(--text-color) !important;
         text-align: center !important;
-        margin: 0 !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    }
-
-    /* FORMULÁRIOS, FILTROS E OUTROS PAINÉIS */
-    .filter-container,
-    .filter-container form,
-    .receita-form,
-    form[action*="definir_receita"] {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 10px !important;
-        box-sizing: border-box !important;
-    }
-
-    form input,
-    form select,
-    form button,
-    .btn-csv,
-    .btn-share,
-    button[onclick*="share"] {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 8px !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 12px 15px !important;
-        font-size: 0.95rem !important;
-        text-align: center !important;
-        margin: 0 !important;
-    }
-
-    .cards,
-    .content-grid {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 15px !important;
-    }
-
-    .chart-box,
-    .table-box {
-        width: 100% !important;
-        min-width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    .table-box {
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
+        font-size: 1rem !important;
     }
 }
 
