@@ -64,7 +64,8 @@ body.dark-mode label {
     align-items: center;
     width: 100%;
     margin-bottom: 20px;
-    padding-right: 120px; /* Mantém espaço livre para o botão de tema no desktop */
+    padding-right: 120px;
+    /* Mantém espaço livre para o botão de tema no desktop */
     box-sizing: border-box;
 }
 
@@ -600,7 +601,8 @@ body.dark-mode .calc-btn.danger {
     .user-greeting {
         display: block !important;
         width: 100% !important;
-        padding-right: 110px !important; /* Espaço de folga para não encostar no botão de tema */
+        padding-right: 110px !important;
+        /* Espaço de folga para não encostar no botão de tema */
         margin-bottom: 15px !important;
         font-size: 0.95rem !important;
         font-weight: 600 !important;
@@ -623,11 +625,10 @@ body.dark-mode .calc-btn.danger {
         flex-direction: column !important;
         width: 100% !important;
         gap: 10px !important;
-        margin-bottom: 15px !important;
-        clear: both !important;
+        margin-bottom: 20px !important;
+        box-sizing: border-box !important;
     }
 
-    /* FORÇA OS BOTÕES DE DICAS E CALCULADORA A OCUPAREM 100% DA LARGURA */
     .top-actions a,
     .top-actions button:not(#toggle-theme) {
         display: flex !important;
@@ -636,14 +637,24 @@ body.dark-mode .calc-btn.danger {
         width: 100% !important;
         min-width: 100% !important;
         box-sizing: border-box !important;
-        padding: 12px !important;
-        font-size: 0.95rem !important;
-        font-weight: 600 !important;
+        padding: 14px 20px !important;
+        font-size: 1rem !important;
+        font-weight: bold !important;
         border-radius: 8px !important;
+        /* Mesma curvatura dos cards/containers */
+        border: 1px solid var(--border-color) !important;
+        background: var(--card-bg) !important;
+        color: var(--text-color) !important;
         text-align: center !important;
         margin: 0 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+        transition: background-color 0.2s ease, transform 0.1s ease !important;
+    }
+
+    .top-actions a:hover,
+    .top-actions button:not(#toggle-theme):hover {
+        transform: translateY(-1px) !important;
+        filter: brightness(1.1) !important;
     }
 
     /* FILTROS, RECEITAS E BOTÕES DE AÇÃO (100% DA LARGURA) */
