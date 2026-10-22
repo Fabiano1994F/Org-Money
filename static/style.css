@@ -560,26 +560,24 @@ body.dark-mode .calc-btn.danger {
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        padding: 50px 12px 12px 12px !important;
+        padding: 55px 12px 12px 12px !important;
         overflow-x: hidden;
     }
 
-    /* BOTÃO DE TEMA COMPACTO E FIXO À DIREITA */
-    .btn-theme-toggle,
-    .top-right-theme-btn,
+    /* BOTÃO DE MODO CLARO/ESCURO (COMPACTO NO CANTO SUPERIOR DIREITO) */
     button#toggle-theme,
-    .top-actions .btn-theme-toggle {
+    .top-right-theme-btn {
         position: fixed !important;
-        top: 12px !important;
-        right: 12px !important;
+        top: 10px !important;
+        right: 10px !important;
         width: auto !important;
         min-width: unset !important;
         max-width: fit-content !important;
         z-index: 99999 !important;
-        padding: 6px 14px !important;
+        padding: 6px 12px !important;
         font-size: 0.8rem !important;
         border-radius: 20px !important;
-        background: rgba(255, 255, 255, 0.92) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
         border: 1px solid #ccc !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
         color: #333 !important;
@@ -589,39 +587,49 @@ body.dark-mode .calc-btn.danger {
         justify-content: center !important;
     }
 
-    body.dark-mode .btn-theme-toggle,
-    body.dark-mode .top-right-theme-btn,
     body.dark-mode button#toggle-theme,
-    body.dark-mode .top-actions .btn-theme-toggle {
-        background: rgba(30, 30, 30, 0.92) !important;
+    body.dark-mode .top-right-theme-btn {
+        background: rgba(30, 30, 30, 0.95) !important;
         border-color: #444 !important;
         color: #fff !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
     }
 
-    /* SAUDAÇÃO DO USUÁRIO */
+    /* SAUDAÇÃO DO USUÁRIO (ALINHADA À ESQUERDA SEM QUEBRAR O TEXTO) */
     .header-top,
     .user-greeting {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
+        display: block !important;
         width: 100% !important;
-        padding-right: 110px !important; /* Libera espaço para o botão compacto de tema */
-        margin-bottom: 12px !important;
-        font-size: 0.9rem !important;
+        padding-right: 110px !important; /* Espaço de folga para não encostar no botão de tema */
+        margin-bottom: 15px !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        text-align: left !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 
-    /* BOTÕES DICAS E CALCULADORA (100% DA LARGURA) */
+    .user-greeting a {
+        color: var(--red-color) !important;
+        text-decoration: none !important;
+        margin-left: 8px !important;
+        font-weight: bold !important;
+    }
+
+    /* CONTAINER DE AÇÕES DO TOPO (DICAS E CALCULADORA) */
     .top-actions {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         gap: 10px !important;
         margin-bottom: 15px !important;
+        clear: both !important;
     }
 
+    /* FORÇA OS BOTÕES DE DICAS E CALCULADORA A OCUPAREM 100% DA LARGURA */
     .top-actions a,
-    .top-actions button:not(.btn-theme-toggle) {
+    .top-actions button:not(#toggle-theme) {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -634,6 +642,8 @@ body.dark-mode .calc-btn.danger {
         border-radius: 8px !important;
         text-align: center !important;
         margin: 0 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     /* FILTROS, RECEITAS E BOTÕES DE AÇÃO (100% DA LARGURA) */
