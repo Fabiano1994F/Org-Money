@@ -586,52 +586,136 @@ body.dark-mode .btn-action-top {
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE MOBILE (Até 768px)
+   RESPONSIVIDADE DEFINITIVA (Tablets e Telemóveis - Até 768px)
    ========================================================================== */
 @media (max-width: 768px) {
+    body {
+        padding: 50px 12px 12px 12px !important;
+        overflow-x: hidden;
+    }
 
-    /* BOTÃO MODO CLARO/ESCURO COMPACTO E FIXO */
+    /* 1. BOTÃO MODO ESCURO/CLARO FIXO NO CANTO SUPERIOR DIREITO */
     #toggle-theme,
-    .top-right-theme-btn {
+    .top-right-theme-btn,
+    button#toggle-theme {
         position: fixed !important;
         top: 10px !important;
         right: 10px !important;
         width: auto !important;
         min-width: unset !important;
+        max-width: fit-content !important;
         z-index: 99999 !important;
         padding: 6px 12px !important;
         font-size: 0.8rem !important;
         border-radius: 20px !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        border: 1px solid #ccc !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-        color: #333 !important;
-    }
-
-    body.dark-mode #toggle-theme,
-    body.dark-mode .top-right-theme-btn {
         background: rgba(30, 30, 30, 0.95) !important;
-        border-color: #444 !important;
+        border: 1px solid #444 !important;
         color: #fff !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+        margin: 0 !important;
     }
 
-    /* CONTAINER DICAS E CALCULADORA (LARGURA TOTAL 100%) */
+    /* 2. SAUDAÇÃO DO UTILIZADOR EM LINHA PRÓPRIA NO TOPO */
+    .header-top,
+    .user-greeting {
+        display: block !important;
+        width: 100% !important;
+        padding-right: 110px !important;
+        /* Afastamento para o botão fixo */
+        margin-bottom: 15px !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        text-align: left !important;
+        clear: both !important;
+    }
+
+    .user-greeting a {
+        color: var(--red-color) !important;
+        text-decoration: none !important;
+        margin-left: 6px !important;
+        font-weight: bold !important;
+    }
+
+    /* 3. BOTÕES DICAS E CALCULADORA (OCUPAM 100% DA LARGURA DA TELA) */
     .top-actions {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
+        max-width: 100% !important;
         gap: 10px !important;
         margin-bottom: 20px !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
     }
 
+    .top-actions a,
+    .top-actions button:not(#toggle-theme),
     .btn-action-top {
         display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 14px 15px !important;
+        font-size: 1rem !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+
+    /* 4. FORMULÁRIOS, FILTROS E RECEITA (100% DA LARGURA EMPILHADOS) */
+    .filter-container,
+    .filter-container form,
+    .receita-form,
+    form[action*="definir_receita"],
+    form[action*="transacao"] {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    form input,
+    form select,
+    form button,
+    .btn-csv,
+    .btn-share,
+    button[onclick*="share"] {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
         width: 100% !important;
         min-width: 100% !important;
         box-sizing: border-box !important;
-        padding: 14px 15px !important;
+        padding: 12px 15px !important;
+        font-size: 0.95rem !important;
         text-align: center !important;
-        font-size: 1rem !important;
+        margin: 0 !important;
+    }
+
+    .cards,
+    .content-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 15px !important;
+    }
+
+    .chart-box,
+    .table-box {
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .table-box {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
     }
 }
 
