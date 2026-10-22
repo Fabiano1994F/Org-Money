@@ -586,15 +586,15 @@ body.dark-mode .btn-action-top {
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE DEFINITIVA (Tablets e Telemóveis - Até 768px)
+   RESPONSIVIDADE AJUSTADA (Tablets e Telemóveis - Até 768px)
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        padding: 50px 12px 12px 12px !important;
+        padding: 50px 10px 10px 10px !important;
         overflow-x: hidden;
     }
 
-    /* 1. BOTÃO MODO ESCURO/CLARO FIXO NO CANTO SUPERIOR DIREITO */
+    /* BOTÃO DE TEMA COMPACTO E FIXO À DIREITA */
     #toggle-theme,
     .top-right-theme-btn,
     button#toggle-theme {
@@ -615,18 +615,16 @@ body.dark-mode .btn-action-top {
         margin: 0 !important;
     }
 
-    /* 2. SAUDAÇÃO DO UTILIZADOR EM LINHA PRÓPRIA NO TOPO */
+    /* SAUDAÇÃO DO UTILIZADOR */
     .header-top,
     .user-greeting {
         display: block !important;
         width: 100% !important;
         padding-right: 110px !important;
-        /* Afastamento para o botão fixo */
         margin-bottom: 15px !important;
         font-size: 0.95rem !important;
         font-weight: 600 !important;
         text-align: left !important;
-        clear: both !important;
     }
 
     .user-greeting a {
@@ -636,18 +634,20 @@ body.dark-mode .btn-action-top {
         font-weight: bold !important;
     }
 
-    /* 3. BOTÕES DICAS E CALCULADORA (OCUPAM 100% DA LARGURA DA TELA) */
+    /* REMOVE O ESPAÇAMENTO INTERNO DO CONTAINER QUE APERTA OS BOTÕES */
     .top-actions {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         max-width: 100% !important;
         gap: 10px !important;
-        margin-bottom: 20px !important;
+        margin: 0 0 20px 0 !important;
         padding: 0 !important;
         box-sizing: border-box !important;
+        align-items: stretch !important;
     }
 
+    /* FORÇA DICAS E CALCULADORA A OCUPAREM O MESMO LARGURA DOS CARDS */
     .top-actions a,
     .top-actions button:not(#toggle-theme),
     .btn-action-top {
@@ -662,11 +662,15 @@ body.dark-mode .btn-action-top {
         font-size: 1rem !important;
         font-weight: bold !important;
         border-radius: 8px !important;
+        border: 1px solid var(--border-color) !important;
+        background: var(--card-bg) !important;
+        color: var(--text-color) !important;
         text-align: center !important;
         margin: 0 !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     }
 
-    /* 4. FORMULÁRIOS, FILTROS E RECEITA (100% DA LARGURA EMPILHADOS) */
+    /* FORMULÁRIOS, FILTROS E OUTROS ELEMENTOS */
     .filter-container,
     .filter-container form,
     .receita-form,
